@@ -17,10 +17,13 @@ def main(dataset, output, model):
     if output:
         df.to_csv(output)
 
+
 class Analyzer():
     '''A passive voice analyzer class'''
     def __init__(self, model):
         self.nlp = spacy.load(model)
+        # Borrowed straight out of
+        # https://github.com/armsp/active_or_passive.git
         passive_rule = [{'DEP': 'nsubjpass'},
                         {'DEP': 'aux', 'OP': '*'},
                         {'DEP': 'auxpass'},
@@ -29,10 +32,12 @@ class Analyzer():
         self.matcher.add('Passive', [passive_rule])
 
     def count_passive(self, text):
+        '''Return how many passive voice sentences are present in the text'''
         doc = self.nlp(text)
         return len(list(filter(self.matcher, doc.sents)))
 
     def count_sentences(self, text):
+        '''Return how many sentences are present in the text'''
         doc = self.nlp(text)
         return len(list(doc.sents))
 
