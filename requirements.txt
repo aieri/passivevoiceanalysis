@@ -1,4 +1,6 @@
 argparse
 spacy>=3.0
 pandas
+openpyxl
+xlrd
 
